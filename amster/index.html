@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yandex • Mail.ru • VK Video — Offices in Amsterdam</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        /* Language Switcher */
+        .lang-switcher {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 999;
+            display: flex;
+            gap: 0.25rem;
+            background: rgba(20, 20, 20, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 0.4rem;
+            border-radius: 10px;
+            border: 1px solid #333;
+        }
+
+        .lang-btn {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            background: transparent;
+            color: #888;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .lang-btn:hover {
+            color: #ccc;
+        }
+
+        .lang-btn.active {
+            background: #333;
+            color: #fff;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            padding: 2rem;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '🌷';
+            font-size: 8rem;
+            position: absolute;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-20px); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 6vw, 4.5rem);
+            margin-top: 8rem;
+            background: linear-gradient(90deg, #fc3f1b, #0077ff, #00aaff, #ff6600);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient 4s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            margin-top: 1.5rem;
+            color: #aaa;
+            max-width: 600px;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            font-size: 1.2rem;
+            color: #666;
+            animation: fadeInOut 2s infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* Sections */
+        section {
+            padding: 5rem 2rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Company Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: #141414;
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid #222;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: #444;
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card p {
+            color: #999;
+            line-height: 1.6;
+        }
+
+        .card .tag {
+            display: inline-block;
+            background: #222;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 1rem;
+            color: #777;
+        }
+
+        /* Яндекс */
+        .yandex h3 { color: #fc3f1b; }
+
+        /* Mail */
+        .mailru h3 { color: #0077ff; }
+
+        /* VK */
+        .vkvideo h3 { color: #00aaff; }
+
+        /* Stats */
+        .stats {
+            background: #111;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-item {
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #fc3f1b, #00aaff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: #888;
+            margin-top: 0.5rem;
+            font-size: 1rem;
+        }
+
+        /* Map */
+        .map-section {
+            background: #0a0a0a;
+            text-align: center;
+        }
+
+        .fake-map {
+            background: #1a1a1a;
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #222;
+        }
+
+        .fake-map::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                repeating-linear-gradient(0deg, transparent, transparent 40px, #1e1e1e 40px, #1e1e1e 41px),
+                repeating-linear-gradient(90deg, transparent, transparent 40px, #1e1e1e 40px, #1e1e1e 41px);
+        }
+
+        .map-pin {
+            position: relative;
+            z-index: 1;
+            font-size: 2rem;
+            animation: pinDrop 0.6s ease;
+        }
+
+        @keyframes pinDrop {
+            0% { transform: translateY(-100px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .map-address {
+            position: relative;
+            z-index: 1;
+            margin-top: 1rem;
+            color: #aaa;
+            font-size: 1.1rem;
+        }
+
+        .map-joke {
+            position: relative;
+            z-index: 1;
+            margin-top: 0.5rem;
+            color: #555;
+            font-style: italic;
+        }
+
+        /* Perks */
+        .perks {
+            background: #111;
+        }
+
+        .perks-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .perk {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            background: #1a1a1a;
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .perk-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .perk h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            color: #ddd;
+        }
+
+        .perk p {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            text-align: center;
+        }
+
+        .testimonial {
+            background: #141414;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 1.5rem auto;
+            max-width: 600px;
+            border-left: 4px solid #fc3f1b;
+            text-align: left;
+        }
+
+        .testimonial:nth-child(2) { border-color: #0077ff; }
+        .testimonial:nth-child(3) { border-color: #00aaff; }
+
+        .testimonial-text {
+            font-style: italic;
+            color: #bbb;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-author {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* CTA */
+        .cta {
+            background: linear-gradient(135deg, #0f3460, #1a1a2e);
+            text-align: center;
+            padding: 6rem 2rem;
+        }
+
+        .cta h2 {
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(90deg, #fc3f1b, #ff6600);
+            color: #fff;
+            padding: 1rem 3rem;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(252, 63, 27, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: #0a0a0a;
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #444;
+            font-size: 0.85rem;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        footer a {
+            color: #555;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #888;
+        }
+
+        /* Ticker */
+        .ticker-wrap {
+            overflow: hidden;
+            background: #0d0d0d;
+            padding: 1rem 0;
+            border-top: 1px solid #1a1a1a;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .ticker {
+            display: flex;
+            gap: 3rem;
+            animation: scroll 20s linear infinite;
+            width: max-content;
+        }
+
+        .ticker span {
+            white-space: nowrap;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Disclaimer */
+        .disclaimer {
+            background: #1a1a1a;
+            padding: 2rem;
+            text-align: center;
+            color: #555;
+            font-size: 0.8rem;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Language Switcher -->
+<div class="lang-switcher">
+    <button class="lang-btn active" data-lang="ru">RU</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="nl">NL</button>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+    <h1 data-i18n="hero_title">IT-гиганты в Амстердаме</h1>
+    <p data-i18n="hero_subtitle">Офисы Яндекс • Mail.ru • VK Video прямо на берегу каналов. Наконец-то кто-то привёз русскоязычный IT в Нидерланды.</p>
+    <div class="scroll-hint" data-i18n="scroll_hint">↓ листай, тут серьёзно ↓</div>
+</section>
+
+<!-- Ticker -->
+<div class="ticker-wrap">
+    <div class="ticker">
+        <span data-i18n="ticker_1">🔥 Открыли офис в Амстердаме</span>
+        <span data-i18n="ticker_2">🧇 Бесплатные вафли на кухне</span>
+        <span data-i18n="ticker_3">🚲 Велипарковка на 200 мест</span>
+        <span data-i18n="ticker_4">🌷 Тюльпаны в ресепшене</span>
+        <span data-i18n="ticker_5">🪿 Гуси в переговорке №3</span>
+        <span data-i18n="ticker_6">🧀 Сыр Edam на кухне</span>
+        <span data-i18n="ticker_7">☕ Кофе за счёт компании</span>
+        <span data-i18n="ticker_8">🎸 PlayStation в зоне отдыха</span>
+        <span data-i18n="ticker_1">🔥 Открыли офис в Амстердаме</span>
+        <span data-i18n="ticker_2">🧇 Бесплатные вафли на кухне</span>
+        <span data-i18n="ticker_3">🚲 Велипарковка на 200 мест</span>
+        <span data-i18n="ticker_4">🌷 Тюльпаны в ресепшене</span>
+        <span data-i18n="ticker_5">🪿 Гуси в переговорке №3</span>
+        <span data-i18n="ticker_6">🧀 Сыр Edam на кухне</span>
+        <span data-i18n="ticker_7">☕ Кофе за счёт компании</span>
+        <span data-i18n="ticker_8">🎸 PlayStation в зоне отдыха</span>
+    </div>
+</div>
+
+<!-- Companies -->
+<section>
+    <div class="container">
+        <h2 data-i18n="companies_title">Наши компании</h2>
+        <p class="subtitle" data-i18n="companies_subtitle">Три техногиганта — один амстердамский адрес</p>
+
+        <div class="cards">
+            <div class="card yandex">
+                <div class="card-icon">🔴</div>
+                <h3>Яндекс</h3>
+                <p data-i18n="yandex_desc">Отдел поиска, который наконец-то понял, как найти офис в Амстердаме. Яндекс.Карты здесь работают идеально — ведь каналы никуда не денутся.</p>
+                <span class="tag" data-i18n="yandex_tags">поиск • такси • еда • погода</span>
+            </div>
+
+            <div class="card mailru">
+                <div class="card-icon">🔵</div>
+                <h3>Mail.ru</h3>
+                <p data-i18n="mailru_desc">Почтовый сервис, который доказывает: письма из Амстердама доходят так же быстро, как и спам в inbox. Просто теперь с голландским IP.</p>
+                <span class="tag" data-i18n="mailru_tags">почта • облако • игры</span>
+            </div>
+
+            <div class="card vkvideo">
+                <div class="card-icon">🟢</div>
+                <h3>VK Video</h3>
+                <p data-i18n="vkvideo_desc">Стриминговый сервис, который привёз в Нидерланды всё: от обзоров тюльпанов до записей с голландскими каналами. В прямом смысле.</p>
+                <span class="tag" data-i18n="vkvideo_tags">видео • стримы • коты</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats -->
+<section class="stats">
+    <div class="container">
+        <h2 data-i18n="stats_title">Цифры впечатляют</h2>
+        <p class="subtitle" data-i18n="stats_subtitle">Статистика нашего амстердамского присутствия</p>
+
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">3</div>
+                <div class="stat-label" data-i18n="stat_1">компании в одном офисе</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">147</div>
+                <div class="stat-label" data-i18n="stat_2">велопарковок</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">∞</div>
+                <div class="stat-label" data-i18n="stat_3">тюльпанов на ресепшене</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">0</div>
+                <div class="stat-label" data-i18n="stat_4">голландцев, которые понимают Яндекс</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map -->
+<section class="map-section">
+    <div class="container">
+        <h2 data-i18n="map_title">Как нас найти</h2>
+        <p class="subtitle" data-i18n="map_subtitle">Мы буквально везде (где есть Wi-Fi)</p>
+
+        <div class="fake-map">
+            <div class="map-pin">📍</div>
+            <div class="map-address">Prinsengracht 1, Amsterdam, Nederland</div>
+            <div class="map-joke" data-i18n="map_joke">* на самом деле это просто канал, но мы работаем здесь</div>
+        </div>
+    </div>
+</section>
+
+<!-- Perks -->
+<section class="perks">
+    <div class="container">
+        <h2 data-i18n="perks_title">Почему у нас круто</h2>
+        <p class="subtitle" data-i18n="perks_subtitle">Бенефиты, ради которых стоит переехать</p>
+
+        <div class="perks-list">
+            <div class="perk">
+                <div class="perk-icon">🚲</div>
+                <div>
+                    <h4 data-i18n="perk_1_title">Корпоративные велики</h4>
+                    <p data-i18n="perk_1_desc">200 велосипедов. Один из них точно без тормозов — это фича.</p>
+                </div>
+            </div>
+            <div class="perk">
+                <div class="perk-icon">🧇</div>
+                <div>
+                    <h4 data-i18n="perk_2_title">Stroopwafels бесплатно</h4>
+                    <p data-i18n="perk_2_desc">Безлимитные голландские вафли. Диетологи в шоке, сотрудники в восторге.</p>
+                </div>
+            </div>
+            <div class="perk">
+                <div class="perk-icon">🪿</div>
+                <div>
+                    <h4 data-i18n="perk_3_title">Гуси в офисе</h4>
+                    <p data-i18n="perk_3_desc">Живые гуси в переговорке. Модерируют встречи лучше любого тимлида.</p>
+                </div>
+            </div>
+            <div class="perk">
+                <div class="perk-icon">🧀</div>
+                <div>
+                    <h4 data-i18n="perk_4_title">Сырный холодильник</h4>
+                    <p data-i18n="perk_4_desc">Gouda, Edam, Leiden — и это не имена разработчиков, а виды сыра.</p>
+                </div>
+            </div>
+            <div class="perk">
+                <div class="perk-icon">🌷</div>
+                <div>
+                    <h4 data-i18n="perk_5_title">Тюльпановый KPI</h4>
+                    <p data-i18n="perk_5_desc">Каждый квартал +1 тюльпан на стол. К концу года у вас будет целый букет.</p>
+                </div>
+            </div>
+            <div class="perk">
+                <div class="perk-icon">🎯</div>
+                <div>
+                    <h4 data-i18n="perk_6_title">Гибкий график</h4>
+                    <p data-i18n="perk_6_desc">Можно работать с 9 до 6 или с 10 до 7. Главное — не во время катания на великах.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials">
+    <div class="container">
+        <h2 data-i18n="testimonials_title">Отзывы сотрудников</h2>
+        <p class="subtitle" data-i18n="testimonials_subtitle">Реальные (нет) цитаты</p>
+
+        <div class="testimonial">
+            <p class="testimonial-text" data-i18n="testimonial_1_text">«Пришёл на собеседование в Яндекс, а попал на каналы. Теперь живу здесь. Спасибо, что не уволили.»</p>
+            <p class="testimonial-author" data-i18n="testimonial_1_author">— Алексей, Senior Backend Developer (и бывший москвич)</p>
+        </div>
+
+        <div class="testimonial">
+            <p class="testimonial-text" data-i18n="testimonial_2_text">«Mail.ru в Амстердаме — это как старый друг, только с голландским акцентом. Письма всё так же теряются, но вид красивый.»</p>
+            <p class="testimonial-author" data-i18n="testimonial_2_author">— Мария, Product Manager (и любительница stroopwafels)</p>
+        </div>
+
+        <div class="testimonial">
+            <p class="testimonial-text" data-i18n="testimonial_3_text">«VK Video — единственное место, где можно смотреть голландские каналы в HD. Буквально — каналы с водой.»</p>
+            <p class="testimonial-author" data-i18n="testimonial_3_author">— Дмитрий, Full-Stack Developer (и капитан лодки)</p>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+    <div class="container">
+        <h2 data-i18n="cta_title">Хочешь к нам?</h2>
+        <p data-i18n="cta_subtitle">Присылай резюме. Или просто приезжай на канале — мы там.</p>
+        <button class="cta-button" data-i18n="cta_button" onclick="showAlert()">Отправить резюме</button>
+    </div>
+</section>
+
+<!-- Disclaimer -->
+<div class="disclaimer">
+    <span data-i18n="disclaimer">⚠️ Это шуточный лендинг. Ни Яндекс, ни Mail.ru, ни VK Video не имеют офисов в Амстердаме (насколько нам известно).<br>
+    Все совпадения с реальностью случайны. Тюльпаны настоящие. Гуси — тоже.</span>
+</div>
+
+<!-- Footer -->
+<footer>
+    <p data-i18n="footer_text">© 2026 ya-mail-vkvideo.sigmadex.tech — Сделано с 🌷 и ☕ в Амстердаме</p>
+    <p style="margin-top: 0.5rem;">
+        <a href="#">Яндекс</a> •
+        <a href="#">Mail.ru</a> •
+        <a href="#">VK Video</a> •
+        <a href="#">Amsterdam</a>
+    </p>
+</footer>
+
+<script>
+const translations = {
+    ru: {
+        hero_title: "IT-гиганты в Амстердаме",
+        hero_subtitle: "Офисы Яндекс • Mail.ru • VK Video прямо на берегу каналов. Наконец-то кто-то привёз русскоязычный IT в Нидерланды.",
+        scroll_hint: "↓ листай, тут серьёзно ↓",
+        ticker_1: "🔥 Открыли офис в Амстердаме",
+        ticker_2: "🧇 Бесплатные вафли на кухне",
+        ticker_3: "🚲 Велипарковка на 200 мест",
+        ticker_4: "🌷 Тюльпаны в ресепшене",
+        ticker_5: "🪿 Гуси в переговорке №3",
+        ticker_6: "🧀 Сыр Edam на кухне",
+        ticker_7: "☕ Кофе за счёт компании",
+        ticker_8: "🎸 PlayStation в зоне отдыха",
+        companies_title: "Наши компании",
+        companies_subtitle: "Три техногиганта — один амстердамский адрес",
+        yandex_desc: "Отдел поиска, который наконец-то понял, как найти офис в Амстердаме. Яндекс.Карты здесь работают идеально — ведь каналы никуда не денутся.",
+        yandex_tags: "поиск • такси • еда • погода",
+        mailru_desc: "Почтовый сервис, который доказывает: письма из Амстердама доходят так же быстро, как и спам в inbox. Просто теперь с голландским IP.",
+        mailru_tags: "почта • облако • игры",
+        vkvideo_desc: "Стриминговый сервис, который привёз в Нидерланды всё: от обзоров тюльпанов до записей с голландскими каналами. В прямом смысле.",
+        vkvideo_tags: "видео • стримы • коты",
+        stats_title: "Цифры впечатляют",
+        stats_subtitle: "Статистика нашего амстердамского присутствия",
+        stat_1: "компании в одном офисе",
+        stat_2: "велопарковок",
+        stat_3: "тюльпанов на ресепшене",
+        stat_4: "голландцев, которые понимают Яндекс",
+        map_title: "Как нас найти",
+        map_subtitle: "Мы буквально везде (где есть Wi-Fi)",
+        map_joke: "* на самом деле это просто канал, но мы работаем здесь",
+        perks_title: "Почему у нас круто",
+        perks_subtitle: "Бенефиты, ради которых стоит переехать",
+        perk_1_title: "Корпоративные велики",
+        perk_1_desc: "200 велосипедов. Один из них точно без тормозов — это фича.",
+        perk_2_title: "Stroopwafels бесплатно",
+        perk_2_desc: "Безлимитные голландские вафли. Диетологи в шоке, сотрудники в восторге.",
+        perk_3_title: "Гуси в офисе",
+        perk_3_desc: "Живые гуси в переговорке. Модерируют встречи лучше любого тимлида.",
+        perk_4_title: "Сырный холодильник",
+        perk_4_desc: "Gouda, Edam, Leiden — и это не имена разработчиков, а виды сыра.",
+        perk_5_title: "Тюльпановый KPI",
+        perk_5_desc: "Каждый квартал +1 тюльпан на стол. К концу года у вас будет целый букет.",
+        perk_6_title: "Гибкий график",
+        perk_6_desc: "Можно работать с 9 до 6 или с 10 до 7. Главное — не во время катания на великах.",
+        testimonials_title: "Отзывы сотрудников",
+        testimonials_subtitle: "Реальные (нет) цитаты",
+        testimonial_1_text: "«Пришёл на собеседование в Яндекс, а попал на каналы. Теперь живу здесь. Спасибо, что не уволили.»",
+        testimonial_1_author: "— Алексей, Senior Backend Developer (и бывший москвич)",
+        testimonial_2_text: "«Mail.ru в Амстердаме — это как старый друг, только с голландским акцентом. Письма всё так же теряются, но вид красивый.»",
+        testimonial_2_author: "— Мария, Product Manager (и любительница stroopwafels)",
+        testimonial_3_text: "«VK Video — единственное место, где можно смотреть голландские каналы в HD. Буквально — каналы с водой.»",
+        testimonial_3_author: "— Дмитрий, Full-Stack Developer (и капитан лодки)",
+        cta_title: "Хочешь к нам?",
+        cta_subtitle: "Присылай резюме. Или просто приезжай на канале — мы там.",
+        cta_button: "Отправить резюме",
+        disclaimer: "⚠️ Это шуточный лендинг. Ни Яндекс, ни Mail.ru, ни VK Video не имеют офисов в Амстердаме (насколько нам известно).<br>Все совпадения с реальностью случайны. Тюльпаны настоящие. Гуси — тоже.",
+        footer_text: "© 2026 ya-mail-vkvideo.sigmadex.tech — Сделано с 🌷 и ☕ в Амстердаме",
+        alert_text: "Это шуточный лендинг 😄\nНо кто знает..."
+    },
+    en: {
+        hero_title: "IT Giants in Amsterdam",
+        hero_subtitle: "Yandex • Mail.ru • VK Video offices right on the canals. Someone finally brought Russian-speaking IT to the Netherlands.",
+        scroll_hint: "↓ scroll down, it gets serious ↓",
+        ticker_1: "🔥 Opened an office in Amsterdam",
+        ticker_2: "🧇 Free waffles in the kitchen",
+        ticker_3: "🚲 Bike parking for 200",
+        ticker_4: "🌷 Tulips at reception",
+        ticker_5: "🪿 Geese in meeting room #3",
+        ticker_6: "🧀 Edam cheese in the kitchen",
+        ticker_7: "☕ Free company coffee",
+        ticker_8: "🎸 PlayStation in the chill zone",
+        companies_title: "Our Companies",
+        companies_subtitle: "Three tech giants — one Amsterdam address",
+        yandex_desc: "The search division that finally figured out how to find an office in Amsterdam. Yandex Maps works perfectly here — after all, the canals aren't going anywhere.",
+        yandex_tags: "search • taxi • food • weather",
+        mailru_desc: "The email service that proves: letters from Amsterdam arrive just as fast as spam in your inbox. Just with a Dutch IP now.",
+        mailru_tags: "email • cloud • games",
+        vkvideo_desc: "The streaming service that brought everything to the Netherlands: from tulip reviews to recordings of Dutch canals. Literally.",
+        vkvideo_tags: "video • streams • cats",
+        stats_title: "The Numbers Speak",
+        stats_subtitle: "Statistics of our Amsterdam presence",
+        stat_1: "companies in one office",
+        stat_2: "bike parking spots",
+        stat_3: "tulips at reception",
+        stat_4: "Dutch people who understand Yandex",
+        map_title: "How to Find Us",
+        map_subtitle: "We're literally everywhere (where there's Wi-Fi)",
+        map_joke: "* it's actually just a canal, but we work here",
+        perks_title: "Why We're Awesome",
+        perks_subtitle: "Perks worth moving for",
+        perk_1_title: "Corporate Bikes",
+        perk_1_desc: "200 bicycles. At least one definitely has no brakes — that's a feature.",
+        perk_2_title: "Free Stroopwafels",
+        perk_2_desc: "Unlimited Dutch waffles. Dietitians are horrified, employees are thrilled.",
+        perk_3_title: "Geese in the Office",
+        perk_3_desc: "Live geese in the meeting room. They moderate meetings better than any team lead.",
+        perk_4_title: "Cheese Fridge",
+        perk_4_desc: "Gouda, Edam, Leiden — and those aren't developer names, those are cheese types.",
+        perk_5_title: "Tulip KPI",
+        perk_5_desc: "+1 tulip on your desk every quarter. By year-end you'll have a whole bouquet.",
+        perk_6_title: "Flexible Hours",
+        perk_6_desc: "Work 9 to 6 or 10 to 7. Just not during bike rides.",
+        testimonials_title: "Employee Reviews",
+        testimonials_subtitle: "Real (not) quotes",
+        testimonial_1_text: "\"I came to a Yandex interview and ended up on the canals. Now I live here. Thanks for not firing me.\"",
+        testimonial_1_author: "— Alexey, Senior Backend Developer (and former Muscovite)",
+        testimonial_2_text: "\"Mail.ru in Amsterdam is like an old friend, but with a Dutch accent. Emails still get lost, but the view is beautiful.\"",
+        testimonial_2_author: "— Maria, Product Manager (and stroopwafel enthusiast)",
+        testimonial_3_text: "\"VK Video is the only place where you can watch Dutch canals in HD. Literally — canals with water.\"",
+        testimonial_3_author: "— Dmitry, Full-Stack Developer (and boat captain)",
+        cta_title: "Want to Join Us?",
+        cta_subtitle: "Send your CV. Or just come to the canal — we're there.",
+        cta_button: "Send Resume",
+        disclaimer: "⚠️ This is a joke landing page. Neither Yandex, Mail.ru, nor VK Video have offices in Amsterdam (as far as we know).<br>Any resemblance to reality is coincidental. The tulips are real. So are the geese.",
+        footer_text: "© 2026 ya-mail-vkvideo.sigmadex.tech — Made with 🌷 and ☕ in Amsterdam",
+        alert_text: "This is a joke landing page 😄\nBut who knows..."
+    },
+    nl: {
+        hero_title: "IT-Giganten in Amsterdam",
+        hero_subtitle: "Yandex • Mail.ru • VK Video kantoren direct aan de grachten. Eindelijk iemand die Russischtalige IT naar Nederland bracht.",
+        scroll_hint: "↓ scroll naar beneden, het wordt serieus ↓",
+        ticker_1: "🔥 Kantoor geopend in Amsterdam",
+        ticker_2: "🧇 Gratis wafels in de keuken",
+        ticker_3: "🚲 Fietsenstalling voor 200 plekken",
+        ticker_4: "🌷 Tulpen bij de receptie",
+        ticker_5: "🪿 Ganzen in vergaderruimte #3",
+        ticker_6: "🧀 Edammer kaas in de keuken",
+        ticker_7: "☕ Gratis bedrijfskoffie",
+        ticker_8: "🎸 PlayStation in de relaxruimte",
+        companies_title: "Onze Bedrijven",
+        companies_subtitle: "Drie techgiganten — één Amsterdams adres",
+        yandex_desc: "De zoekafdeling die eindelijk begreep hoe je een kantoor in Amsterdam vindt. Yandex Maps werkt hier perfect — de grachten gaan immers nergens heen.",
+        yandex_tags: "zoeken • taxi • voedsel • weer",
+        mailru_desc: "De e-mailservice die bewijst: post uit Amsterdam komt net zo snel aan als spam in je inbox. Gewoon nu met een Nederlands IP.",
+        mailru_tags: "e-mail • cloud • spellen",
+        vkvideo_desc: "De streamingdienst die alles naar Nederland bracht: van tulpenrecensies tot opnames van Nederlandse grachten. Letterlijk.",
+        vkvideo_tags: "video • streams • katten",
+        stats_title: "De Cijfers Spreken",
+        stats_subtitle: "Statistieken van onze Amsterdamse aanwezigheid",
+        stat_1: "bedrijven in één kantoor",
+        stat_2: "fietsenstallingen",
+        stat_3: "tulpen bij de receptie",
+        stat_4: "Nederlanders die Yandex begrijpen",
+        map_title: "Hoe Ons te Vinden",
+        map_subtitle: "We zijn letterlijk overal (waar WiFi is)",
+        map_joke: "* het is eigenlijk gewoon een gracht, maar we werken hier",
+        perks_title: "Waarom Wij Geweldig Zijn",
+        perks_subtitle: "Voordelen om voor te verhuizen",
+        perk_1_title: "Bedrijfsfietsen",
+        perk_1_desc: "200 fietsen. Minstens één heeft gegarandeerd geen remmen — dat is een feature.",
+        perk_2_title: "Gratis Stroopwafels",
+        perk_2_desc: "Onbeperkte Nederlandse wafels. Diëtisten zijn geschokt, werknemers blij.",
+        perk_3_title: "Ganzen op Kantoor",
+        perk_3_desc: "Levende ganzen in de vergaderruimte. Ze modereren vergaderingen beter dan welke teamlead dan ook.",
+        perk_4_title: "Kaaskoelkast",
+        perk_4_desc: "Gouda, Edam, Leiden — en dat zijn geen ontwikkelaarsnamen, dat zijn kaassoorten.",
+        perk_5_title: "Tulpen-KPI",
+        perk_5_desc: "Elk kwartaal +1 tulp op je bureau. Aan het eind van het jaar heb je een heel boeket.",
+        perk_6_title: "Flexibele Uren",
+        perk_6_desc: "Werk van 9 tot 6 of 10 tot 7. Alleen niet tijdens het fietsen.",
+        testimonials_title: "Medewerkersrecensies",
+        testimonials_subtitle: "Echte (niet) citaten",
+        testimonial_1_text: "\"Ik kwam voor een Yandex-sollicitatie en belandde op de grachten. Nu woon ik hier. Bedankt dat ik niet ontslagen ben.\"",
+        testimonial_1_author: "— Alexey, Senior Backend Developer (en voormalige Moskoviet)",
+        testimonial_2_text: "\"Mail.ru in Amsterdam is als een oude vriend, maar met een Nederlands accent. E-mails raken nog steeds kwijt, maar het uitzicht is prachtig.\"",
+        testimonial_2_author: "— Maria, Product Manager (en stroopwafel-liefhebber)",
+        testimonial_3_text: "\"VK Video is de enige plek waar je Nederlandse grachten in HD kunt bekijken. Letterlijk — grachten met water.\"",
+        testimonial_3_author: "— Dmitry, Full-Stack Developer (en bootkapitein)",
+        cta_title: "Wil Je Bij Ons Komen?",
+        cta_subtitle: "Stuur je CV. Of kom gewoon naar de gracht — we zijn daar.",
+        cta_button: "Stuur je CV",
+        disclaimer: "⚠️ Dit is een grappige landingspagina. Noch Yandex, Mail.ru, noch VK Video hebben kantoren in Amsterdam (voor zover wij weten).<br>Gelijkenis met de werkelijkheid is louter toeval. De tulpen zijn echt. De ganzen ook.",
+        footer_text: "© 2026 ya-mail-vkvideo.sigmadex.tech — Gemaakt met 🌷 en ☕ in Amsterdam",
+        alert_text: "Dit is een grappige landingspagina 😄\nMaar wie weet..."
+    }
+};
+
+let currentLang = 'ru';
+
+function setLanguage(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) {
+            el.innerHTML = translations[lang][key];
+        }
+    });
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+}
+
+function showAlert() {
+    alert(translations[currentLang].alert_text);
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        setLanguage(btn.dataset.lang);
+    });
+});
+</script>
+
+</body>
+</html>

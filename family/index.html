@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMW Family Club — Сообщество любителей BMW</title>
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --bg-card: #1a1a1a;
+            --accent: #1c69d4;
+            --accent-hover: #2979ff;
+            --text-primary: #e8e8e8;
+            --text-secondary: #888;
+            --text-muted: #555;
+            --border: #2a2a2a;
+            --radius: 8px;
+            --max-width: 1200px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+        a:hover { color: var(--accent-hover); }
+
+        img { max-width: 100%; display: block; }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-primary);
+        }
+
+        .logo span { color: var(--accent); }
+
+        nav { display: flex; align-items: center; gap: 32px; }
+
+        nav a {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav a:hover { color: var(--text-primary); }
+
+        .lang-switch {
+            display: flex;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 0.5px;
+        }
+
+        .lang-btn.active {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .lang-btn:hover:not(.active) {
+            color: var(--text-primary);
+            background: var(--bg-card);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            padding: 160px 0 100px;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span { color: var(--accent); }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 640px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            border-radius: var(--radius);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .btn-primary:hover { background: var(--accent-hover); color: #fff; }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-outline:hover { border-color: var(--text-secondary); }
+
+        /* ===== SECTIONS ===== */
+        section { padding: 80px 0; }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: clamp(1.5rem, 3vw, 2.25rem);
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 16px;
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            max-width: 600px;
+            font-size: 1rem;
+        }
+
+        .section-header {
+            margin-bottom: 48px;
+        }
+
+        /* ===== FEATURES ===== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px;
+            transition: border-color 0.2s;
+        }
+
+        .feature-card:hover { border-color: var(--accent); }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(28, 105, 212, 0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* ===== VIDEO SECTION ===== */
+        #videos { background: var(--bg-secondary); }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 24px;
+        }
+
+        .video-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .video-card:hover { border-color: var(--accent); }
+
+        .video-wrapper {
+            position: relative;
+            padding-top: 56.25%;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-info { padding: 20px; }
+
+        .video-info h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .video-info p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* ===== STATS ===== */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 32px;
+            text-align: center;
+            padding: 60px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* ===== HOW IT WORKS ===== */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 32px;
+            counter-reset: step;
+        }
+
+        .step {
+            position: relative;
+            padding: 32px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            counter-increment: step;
+        }
+
+        .step::before {
+            content: counter(step);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .step h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .step p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* ===== CTA ===== */
+        .cta {
+            text-align: center;
+            padding: 100px 0;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, rgba(28, 105, 212, 0.08) 50%, var(--bg-primary) 100%);
+        }
+
+        .cta .section-title { margin-bottom: 20px; }
+        .cta .section-desc { margin: 0 auto 32px; }
+
+        /* ===== FOOTER ===== */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 32px 0;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 768px) {
+            nav { gap: 16px; }
+            nav a { display: none; }
+            .hero { padding: 130px 0 70px; }
+            section { padding: 60px 0; }
+            .videos-grid { grid-template-columns: 1fr; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+    <div class="container">
+        <div class="logo">BMW<span>FAMILY</span></div>
+        <nav>
+            <a href="#about" data-ru="О нас" data-en="About">О нас</a>
+            <a href="#videos" data-ru="Видео" data-en="Videos">Видео</a>
+            <a href="#join" data-ru="Вступить" data-en="Join">Вступить</a>
+            <div class="lang-switch">
+                <button class="lang-btn active" data-lang="ru">RU</button>
+                <button class="lang-btn" data-lang="en">EN</button>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+    <div class="container">
+        <h1 data-ru="Сообщество <span>BMW</span> — ремонтируем сами" data-en="<span>BMW</span> Community — DIY Repairs">Сообщество <span>BMW</span> — ремонтируем сами</h1>
+        <p data-ru="Русскоязычный клуб любителей BMW. Делимся опытом, помогаем с ремонтом, разбираем проблемы двигателей N52/N54/N20 вместе." data-en="Russian-speaking BMW enthusiasts club. We share experience, help with repairs, and troubleshoot N52/N54/N20 engine problems together.">Русскоязычный клуб любителей BMW. Делимся опытом, помогаем с ремонтом, разбираем проблемы двигателей N52/N54/N20 вместе.</p>
+        <div class="hero-buttons">
+            <a href="#join" class="btn btn-primary" data-ru="Присоединиться" data-en="Join Us">Присоединиться</a>
+            <a href="#videos" class="btn btn-outline" data-ru="Смотреть видео" data-en="Watch Videos">Смотреть видео</a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section id="about">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-label" data-ru="О сообществе" data-en="About the Community">О сообществе</div>
+            <h2 class="section-title" data-ru="Зачем мы здесь" data-en="Why We're Here">Зачем мы здесь</h2>
+            <p class="section-desc" data-ru="BMW — это не просто машина, это стиль жизни. Мы помогаем владельцам делать ремонт своими руками, экономить на сервисе и понимать свой автомобиль." data-en="BMW is not just a car, it's a lifestyle. We help owners do repairs themselves, save on service, and understand their car.">BMW — это не просто машина, это стиль жизни. Мы помогаем владельцам делать ремонт своими руками, экономить на сервисе и понимать свой автомобиль.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">&#9881;</div>
+                <h3 data-ru="Ремонт своими руками" data-en="DIY Repairs">Ремонт своими руками</h3>
+                <p data-ru="Пошаговые видео-инструкции по замене деталей, обслуживанию и диагностике неисправностей." data-en="Step-by-step video instructions for parts replacement, maintenance, and fault diagnostics.">Пошаговые видео-инструкции по замене деталей, обслуживанию и диагностике неисправностей.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#128295;</div>
+                <h3 data-ru="Двигатели N52 / N54 / N20" data-en="N52 / N54 / N20 Engines">Двигатели N52 / N54 / N20</h3>
+                <p data-ru="Разбираем типичные проблемы: масляные течи, VANOS, ТНВД, форсунки — и как их исправить." data-en="Breaking down common issues: oil leaks, VANOS, HPFP, injectors — and how to fix them.">Разбираем типичные проблемы: масляные течи, VANOS, ТНВД, форсунки — и как их исправить.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#128172;</div>
+                <h3 data-ru="Живое общение" data-en="Live Community">Живое общение</h3>
+                <p data-ru="Задавайте вопросы, получайте советы от опытных механиков и владельцев с многолетним стажем." data-en="Ask questions, get advice from experienced mechanics and owners with years of experience.">Задавайте вопросы, получайте советы от опытных механиков и владельцев с многолетним стажем.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== STATS ===== -->
+<section>
+    <div class="container">
+        <div class="stats">
+            <div>
+                <div class="stat-number">2 500+</div>
+                <div class="stat-label" data-ru="Участников" data-en="Members">Участников</div>
+            </div>
+            <div>
+                <div class="stat-number">180+</div>
+                <div class="stat-label" data-ru="Видео-инструкций" data-en="Video Tutorials">Видео-инструкций</div>
+            </div>
+            <div>
+                <div class="stat-number">12</div>
+                <div class="stat-label" data-ru="Моделей BMW" data-en="BMW Models">Моделей BMW</div>
+            </div>
+            <div>
+                <div class="stat-number">24/7</div>
+                <div class="stat-label" data-ru="Поддержка в чате" data-en="Chat Support">Поддержка в чате</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== VIDEOS ===== -->
+<section id="videos">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-label" data-ru="Видео" data-en="Videos">Видео</div>
+            <h2 class="section-title" data-ru="Полезные материалы" data-en="Useful Resources">Полезные материалы</h2>
+            <p class="section-desc" data-ru="Подборка лучших видео по ремонту и обслуживанию BMW от проверенных авторов." data-en="A curated collection of the best BMW repair and maintenance videos from trusted creators.">Подборка лучших видео по ремонту и обслуживанию BMW от проверенных авторов.</p>
+        </div>
+        <div class="videos-grid">
+
+            <!-- Video 1: N52 Common Problems -->
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/VBYXVJZtmVU"
+                            title="BMW N52 Engine - Common Problems"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3 data-ru="N52 — 4 распространённые проблемы" data-en="N52 — 4 Common Problems">N52 — 4 распространённые проблемы</h3>
+                    <p data-ru="Разбор типичных неисправностей двигателя N52 и способы их устранения." data-en="Breakdown of typical N52 engine issues and how to fix them.">Разбор типичных неисправностей двигателя N52 и способы их устранения.</p>
+                </div>
+            </div>
+
+            <!-- Video 2: N54 Common Problems -->
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/XIRbyJPQwC0"
+                            title="N54 Most Common Problems"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3 data-ru="N54 — основные проблемы" data-en="N54 — Main Issues">N54 — основные проблемы</h3>
+                    <p data-ru="Прокладка масляного фильтра, форсунки, водяная помпа, ТНВД — полный список." data-en="Oil filter housing gasket, injectors, water pump, HPFP — complete list.">Прокладка масляного фильтра, форсунки, водяная помпа, ТНВД — полный список.</p>
+                </div>
+            </div>
+
+            <!-- Video 3: BMW E34 Restoration -->
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/w9Cf1forcUA"
+                            title="BMW E34 525 Restoration"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3 data-ru="Восстановление BMW E34 525" data-en="BMW E34 525 Restoration">Восстановление BMW E34 525</h3>
+                    <p data-ru="Полная реставрация классического BMW E34 своими руками — от покупки до результата." data-en="Complete DIY restoration of a classic BMW E34 — from purchase to result.">Полная реставрация классического BMW E34 своими руками — от покупки до результата.</p>
+                </div>
+            </div>
+
+            <!-- Video 4: Transmission Reset -->
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/JwtHP2oLD5k"
+                            title="BMW Transmission Reset"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3 data-ru="Сброс адаптаций АКПП бесплатно" data-en="Free Transmission Adaptation Reset">Сброс адаптаций АКПП бесплатно</h3>
+                    <p data-ru="Как сбросить адаптации трансмиссии без инструментов — быстрая процедура." data-en="How to reset transmission adaptations without tools — a quick procedure.">Как сбросить адаптации трансмиссии без инструментов — быстрая процедура.</p>
+                </div>
+            </div>
+
+            <!-- Video 5: BMW Mechanic Interview -->
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/oujDUFB3ZEg"
+                            title="BMW Mechanic Interview - 10 Years Experience"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3 data-ru="10 лет ремонта BMW — интервью с мастером" data-en="10 Years of BMW Repair — Mechanic Interview">10 лет ремонта BMW — интервью с мастером</h3>
+                    <p data-ru="Главные советы от мастера с десятилетним опытом обслуживания BMW." data-en="Top tips from a mechanic with ten years of BMW service experience.">Главные советы от мастера с десятилетним опытом обслуживания BMW.</p>
+                </div>
+            </div>
+
+            <!-- Video 6: What $2,983 Worth of BMW Repair Looks Like -->
+            <div class="video-card">
+                <div class="video-wrapper">
+                    <iframe src="https://www.youtube.com/embed/NKREJygbsFQ"
+                            title="What BMW Repair Looks Like"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                </div>
+                <div class="video-info">
+                    <h3 data-ru="Как выглядит ремонт BMW за $3 000" data-en="What $3,000 of BMW Repair Looks Like">Как выглядит ремонт BMW за $3 000</h3>
+                    <p data-ru="Обзор реальных затрат на ремонт — что входит в стоимость и можно ли сэкономить." data-en="Overview of real repair costs — what's included and how to save money.">Обзор реальных затрат на ремонт — что входит в стоимость и можно ли сэкономить.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ===== HOW TO JOIN ===== -->
+<section id="join">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-label" data-ru="Как вступить" data-en="How to Join">Как вступить</div>
+            <h2 class="section-title" data-ru="Три простых шага" data-en="Three Simple Steps">Три простых шага</h2>
+        </div>
+        <div class="steps">
+            <div class="step">
+                <h3 data-ru="Подпишитесь" data-en="Subscribe">Подпишитесь</h3>
+                <p data-ru="Присоединяйтесь к нашему YouTube-каналу и телеграм-чату." data-en="Join our YouTube channel and Telegram chat.">Присоединяйтесь к нашему YouTube-каналу и телеграм-чату.</p>
+            </div>
+            <div class="step">
+                <h3 data-ru="Представьтесь" data-en="Introduce Yourself">Представьтесь</h3>
+                <p data-ru="Напишите, какая у вас модель BMW и что планируете ремонтировать." data-en="Tell us your BMW model and what you plan to repair.">Напишите, какая у вас модель BMW и что планируете ремонтировать.</p>
+            </div>
+            <div class="step">
+                <h3 data-ru="Участвуйте" data-en="Participate">Участвуйте</h3>
+                <p data-ru="Задавайте вопросы, делитесь опытом, помогайте другим." data-en="Ask questions, share experience, help others.">Задавайте вопросы, делитесь опытом, помогайте другим.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta">
+    <div class="container">
+        <h2 class="section-title" data-ru="Готовы начать?" data-en="Ready to Start?">Готовы начать?</h2>
+        <p class="section-desc" data-ru="Присоединяйтесь к сообществу людей, которые любят BMW и делают всё своими руками." data-en="Join a community of people who love BMW and do everything themselves.">Присоединяйтесь к сообществу людей, которые любят BMW и делают всё своими руками.</p>
+        <a href="#join" class="btn btn-primary" data-ru="Присоединиться к сообществу" data-en="Join the Community">Присоединиться к сообществу</a>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+    <div class="container">
+        <p>&copy; 2025 BMWFAMILY. <span data-ru="Все права защищены." data-en="All rights reserved.">Все права защищены.</span></p>
+    </div>
+</footer>
+
+<!-- ===== LANGUAGE SWITCH SCRIPT ===== -->
+<script>
+(function () {
+    let currentLang = 'ru';
+
+    function setLang(lang) {
+        currentLang = lang;
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('.lang-btn').forEach(function (btn) {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+
+        document.querySelectorAll('[data-ru]').forEach(function (el) {
+            const text = el.getAttribute('data-' + lang);
+            if (text) {
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.placeholder = text;
+                } else {
+                    el.innerHTML = text;
+                }
+            }
+        });
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            setLang(btn.dataset.lang);
+        });
+    });
+})();
+</script>
+
+</body>
+</html>
