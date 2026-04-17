@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BMW Repair Community</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #141414;
+      --border: #2a2a2a;
+      --text: #e0e0e0;
+      --text-dim: #888;
+      --accent: #1c69d4;
+      --accent-hover: #2979e0;
+      --bmw-blue: #0066b1;
+      --bmw-white: #ffffff;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .container {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px;
+    }
+    .logo {
+      font-size: 18px; font-weight: 700; letter-spacing: 2px;
+      color: var(--bmw-white);
+    }
+    .logo span { color: var(--bmw-blue); }
+    .nav-links { display: flex; gap: 28px; align-items: center; }
+    .nav-links a {
+      color: var(--text-dim); font-size: 13px; font-weight: 500;
+      letter-spacing: 1px; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--bmw-white); }
+    .lang-switch {
+      display: flex; gap: 4px; margin-left: 16px;
+      border: 1px solid var(--border); border-radius: 4px; overflow: hidden;
+    }
+    .lang-btn {
+      background: none; border: none; color: var(--text-dim);
+      padding: 4px 10px; font-size: 12px; font-weight: 600;
+      cursor: pointer; letter-spacing: 1px; transition: all 0.2s;
+    }
+    .lang-btn.active { background: var(--accent); color: #fff; }
+    .lang-btn:hover:not(.active) { color: var(--bmw-white); }
+
+    /* HERO */
+    .hero {
+      padding: 160px 0 100px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 800; letter-spacing: -1px;
+      color: var(--bmw-white);
+      margin-bottom: 20px;
+    }
+    .hero h1 span { color: var(--bmw-blue); }
+    .hero p {
+      font-size: 18px; color: var(--text-dim);
+      max-width: 600px; margin: 0 auto 36px;
+    }
+    .hero-btn {
+      display: inline-block; padding: 14px 40px;
+      background: var(--bmw-blue); color: #fff;
+      font-size: 14px; font-weight: 600; letter-spacing: 1px;
+      text-transform: uppercase; border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .hero-btn:hover { background: var(--accent-hover); color: #fff; }
+
+    /* SECTIONS */
+    section { padding: 80px 0; }
+    section + section { border-top: 1px solid var(--border); }
+
+    .section-title {
+      font-size: 28px; font-weight: 700; color: var(--bmw-white);
+      margin-bottom: 12px;
+    }
+    .section-subtitle {
+      font-size: 15px; color: var(--text-dim); margin-bottom: 48px;
+      max-width: 560px;
+    }
+
+    /* FEATURES */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 32px 28px;
+      transition: border-color 0.2s;
+    }
+    .feature-card:hover { border-color: var(--bmw-blue); }
+    .feature-icon {
+      font-size: 28px; margin-bottom: 16px;
+      display: block;
+    }
+    .feature-card h3 {
+      font-size: 17px; font-weight: 600; color: var(--bmw-white);
+      margin-bottom: 10px;
+    }
+    .feature-card p { font-size: 14px; color: var(--text-dim); }
+
+    /* VIDEOS */
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .video-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .video-card:hover { border-color: var(--bmw-blue); }
+    .video-wrap {
+      position: relative; width: 100%;
+      padding-top: 56.25%;
+    }
+    .video-wrap iframe {
+      position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%; border: 0;
+    }
+    .video-info { padding: 18px 20px; }
+    .video-info h3 {
+      font-size: 15px; font-weight: 600; color: var(--bmw-white);
+      margin-bottom: 6px;
+    }
+    .video-info p { font-size: 13px; color: var(--text-dim); }
+
+    /* STATS */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 24px; text-align: center;
+    }
+    .stat-num {
+      font-size: 42px; font-weight: 800; color: var(--bmw-blue);
+      margin-bottom: 4px;
+    }
+    .stat-label { font-size: 13px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+
+    /* CTA */
+    .cta { text-align: center; }
+    .cta .section-title { margin-bottom: 16px; }
+    .cta .section-subtitle { margin: 0 auto 36px; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0;
+      text-align: center;
+      font-size: 13px; color: var(--text-dim);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      .nav-links a:not(.lang-switch-wrap) { display: none; }
+      .hero { padding: 130px 0 70px; }
+      section { padding: 60px 0; }
+      .videos-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container">
+    <div class="logo"><span>BMW</span> REPAIR CLUB</div>
+    <div class="nav-links">
+      <a href="#about" data-i18n="nav_about">О нас</a>
+      <a href="#videos" data-i18n="nav_videos">Видео</a>
+      <a href="#community" data-i18n="nav_community">Сообщество</a>
+      <a href="#join" data-i18n="nav_join">Вступить</a>
+      <div class="lang-switch">
+        <button class="lang-btn active" data-lang="ru">RU</button>
+        <button class="lang-btn" data-lang="en">EN</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <h1 data-i18n="hero_title">Ремонт <span>BMW</span> своими руками</h1>
+    <p data-i18n="hero_subtitle">Сообщество русскоязычных энтузиастов — делимся опытом, помогаем с ремонтом, экономим на сервисе</p>
+    <a href="#join" class="hero-btn" data-i18n="hero_cta">Присоединиться</a>
+  </div>
+</section>
+
+<!-- ABOUT / FEATURES -->
+<section id="about">
+  <div class="container">
+    <h2 class="section-title" data-i18n="about_title">Почему мы?</h2>
+    <p class="section-subtitle" data-i18n="about_subtitle">Мы — владельцы, механики и энтузиасты, которые знают BMW изнутри</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <span class="feature-icon">&#9881;</span>
+        <h3 data-i18n="f1_title">Пошаговые инструкции</h3>
+        <p data-i18n="f1_desc">Подробные гайды по ремонту и обслуживанию всех моделей BMW с фото и видео</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#128172;</span>
+        <h3 data-i18n="f2_title">Живое сообщество</h3>
+        <p data-i18n="f2_desc">Тысячи участников готовы помочь с диагностикой, подбором запчастей и советом</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#128295;</span>
+        <h3 data-i18n="f3_title">DIY-подход</h3>
+        <p data-i18n="f3_desc">Учим делать ремонт самостоятельно — от замены масла до переборки двигателя</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#128200;</span>
+        <h3 data-i18n="f4_title">База знаний</h3>
+        <p data-i18n="f4_desc">Каталог типичных неисправностей, кодов ошибок и проверенных решений</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#127757;</span>
+        <h3 data-i18n="f5_title">Без границ</h3>
+        <p data-i18n="f5_desc">Участники из разных стран — обмен опытом, поиск редких запчастей, локальные встречи</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">&#128736;</span>
+        <h3 data-i18n="f6_title">Честные отзывы</h3>
+        <p data-i18n="f6_desc">Реальные обзоры запчастей, инструментов и сервисов от людей, которые ими пользуются</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="community">
+  <div class="container">
+    <div class="stats">
+      <div>
+        <div class="stat-num">12 000+</div>
+        <div class="stat-label" data-i18n="s1">Участников</div>
+      </div>
+      <div>
+        <div class="stat-num">3 400+</div>
+        <div class="stat-label" data-i18n="s2">Инструкций</div>
+      </div>
+      <div>
+        <div class="stat-num">850+</div>
+        <div class="stat-label" data-i18n="s3">Видеоуроков</div>
+      </div>
+      <div>
+        <div class="stat-num">24/7</div>
+        <div class="stat-label" data-i18n="s4">Поддержка</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section id="videos">
+  <div class="container">
+    <h2 class="section-title" data-i18n="videos_title">Видеоуроки</h2>
+    <p class="section-subtitle" data-i18n="videos_subtitle">Лучшие руководства по ремонту BMW от нашего сообщества и проверенных авторов</p>
+    <div class="videos-grid">
+
+      <div class="video-card">
+        <div class="video-wrap">
+          <iframe src="https://www.youtube.com/embed/dE4vYde9JqE" title="BMW Engine Rebuild" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="video-info">
+          <h3 data-i18n="v1_title">Капитальный ремонт двигателя BMW N52</h3>
+          <p data-i18n="v1_desc">Полная переборка рядной шестёрки — от снятия до сборки</p>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-wrap">
+          <iframe src="https://www.youtube.com/embed/S1VwXGFLwFk" title="BMW Suspension Repair" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="video-info">
+          <h3 data-i18n="v2_title">Замена рычагов подвески E90</h3>
+          <p data-i18n="v2_desc">Пошаговая замена передних рычагов в гаражных условиях</p>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-wrap">
+          <iframe src="https://www.youtube.com/embed/3hGmJxKvJdU" title="BMW Brake Service" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="video-info">
+          <h3 data-i18n="v3_title">Замена тормозных дисков и колодок</h3>
+          <p data-i18n="v3_desc">Обслуживание тормозной системы BMW F30 своими руками</p>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-wrap">
+          <iframe src="https://www.youtube.com/embed/7jKhM2wMgqE" title="BMW VANOS Repair" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="video-info">
+          <h3 data-i18n="v4_title">Ремонт системы VANOS</h3>
+          <p data-i18n="v4_desc">Диагностика и восстановление фазорегуляторов BMW</p>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-wrap">
+          <iframe src="https://www.youtube.com/embed/2hJGxTbMjQs" title="BMW Cooling System" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="video-info">
+          <h3 data-i18n="v5_title">Замена системы охлаждения</h3>
+          <p data-i18n="v5_desc">Помпа, термостат, радиатор — полный комплекс на N54/N55</p>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="video-wrap">
+          <iframe src="https://www.youtube.com/embed/5pZGBXqkGqE" title="BMW Oil Leak Repair" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="video-info">
+          <h3 data-i18n="v6_title">Устранение течи масла</h3>
+          <p data-i18n="v6_desc">Замена прокладки клапанной крышки и масляного фильтра</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="join" class="cta">
+  <div class="container">
+    <h2 class="section-title" data-i18n="cta_title">Готовы начать?</h2>
+    <p class="section-subtitle" data-i18n="cta_subtitle">Присоединяйтесь к тысячам владельцев BMW, которые ремонтируют свои автомобили сами</p>
+    <a href="#" class="hero-btn" data-i18n="cta_btn">Вступить в сообщество</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p>&copy; 2026 BMW Repair Club. <span data-i18n="footer">Сообщество энтузиастов ремонта BMW</span></p>
+  </div>
+</footer>
+
+<script>
+const i18n = {
+  ru: {
+    nav_about: 'О нас',
+    nav_videos: 'Видео',
+    nav_community: 'Сообщество',
+    nav_join: 'Вступить',
+    hero_title: 'Ремонт <span>BMW</span> своими руками',
+    hero_subtitle: 'Сообщество русскоязычных энтузиастов — делимся опытом, помогаем с ремонтом, экономим на сервисе',
+    hero_cta: 'Присоединиться',
+    about_title: 'Почему мы?',
+    about_subtitle: 'Мы — владельцы, механики и энтузиасты, которые знают BMW изнутри',
+    f1_title: 'Пошаговые инструкции',
+    f1_desc: 'Подробные гайды по ремонту и обслуживанию всех моделей BMW с фото и видео',
+    f2_title: 'Живое сообщество',
+    f2_desc: 'Тысячи участников готовы помочь с диагностикой, подбором запчастей и советом',
+    f3_title: 'DIY-подход',
+    f3_desc: 'Учим делать ремонт самостоятельно — от замены масла до переборки двигателя',
+    f4_title: 'База знаний',
+    f4_desc: 'Каталог типичных неисправностей, кодов ошибок и проверенных решений',
+    f5_title: 'Без границ',
+    f5_desc: 'Участники из разных стран — обмен опытом, поиск редких запчастей, локальные встречи',
+    f6_title: 'Честные отзывы',
+    f6_desc: 'Реальные обзоры запчастей, инструментов и сервисов от людей, которые ими пользуются',
+    s1: 'Участников',
+    s2: 'Инструкций',
+    s3: 'Видеоуроков',
+    s4: 'Поддержка',
+    videos_title: 'Видеоуроки',
+    videos_subtitle: 'Лучшие руководства по ремонту BMW от нашего сообщества и проверенных авторов',
+    v1_title: 'Капитальный ремонт двигателя BMW N52',
+    v1_desc: 'Полная переборка рядной шестёрки — от снятия до сборки',
+    v2_title: 'Замена рычагов подвески E90',
+    v2_desc: 'Пошаговая замена передних рычагов в гаражных условиях',
+    v3_title: 'Замена тормозных дисков и колодок',
+    v3_desc: 'Обслуживание тормозной системы BMW F30 своими руками',
+    v4_title: 'Ремонт системы VANOS',
+    v4_desc: 'Диагностика и восстановление фазорегуляторов BMW',
+    v5_title: 'Замена системы охлаждения',
+    v5_desc: 'Помпа, термостат, радиатор — полный комплекс на N54/N55',
+    v6_title: 'Устранение течи масла',
+    v6_desc: 'Замена прокладки клапанной крышки и масляного фильтра',
+    cta_title: 'Готовы начать?',
+    cta_subtitle: 'Присоединяйтесь к тысячам владельцев BMW, которые ремонтируют свои автомобили сами',
+    cta_btn: 'Вступить в сообщество',
+    footer: 'Сообщество энтузиастов ремонта BMW'
+  },
+  en: {
+    nav_about: 'About',
+    nav_videos: 'Videos',
+    nav_community: 'Community',
+    nav_join: 'Join',
+    hero_title: '<span>BMW</span> DIY Repair',
+    hero_subtitle: 'A community of Russian-speaking enthusiasts — sharing experience, helping with repairs, saving on service',
+    hero_cta: 'Join Us',
+    about_title: 'Why Us?',
+    about_subtitle: 'We are owners, mechanics, and enthusiasts who know BMW from the inside out',
+    f1_title: 'Step-by-Step Guides',
+    f1_desc: 'Detailed repair and maintenance guides for all BMW models with photos and videos',
+    f2_title: 'Active Community',
+    f2_desc: 'Thousands of members ready to help with diagnostics, parts selection, and advice',
+    f3_title: 'DIY Approach',
+    f3_desc: 'We teach you to do repairs yourself — from oil changes to engine rebuilds',
+    f4_title: 'Knowledge Base',
+    f4_desc: 'Catalog of common faults, error codes, and proven solutions',
+    f5_title: 'No Borders',
+    f5_desc: 'Members from different countries — experience sharing, rare parts sourcing, local meetups',
+    f6_title: 'Honest Reviews',
+    f6_desc: 'Real reviews of parts, tools, and services from people who actually use them',
+    s1: 'Members',
+    s2: 'Guides',
+    s3: 'Video Tutorials',
+    s4: 'Support',
+    videos_title: 'Video Tutorials',
+    videos_subtitle: 'Best BMW repair guides from our community and trusted creators',
+    v1_title: 'BMW N52 Engine Rebuild',
+    v1_desc: 'Complete inline-six teardown and rebuild — from removal to assembly',
+    v2_title: 'E90 Control Arm Replacement',
+    v2_desc: 'Step-by-step front control arm replacement in home garage conditions',
+    v3_title: 'Brake Disc & Pad Replacement',
+    v3_desc: 'BMW F30 brake system DIY maintenance',
+    v4_title: 'VANOS System Repair',
+    v4_desc: 'Diagnosing and rebuilding BMW variable valve timing units',
+    v5_title: 'Cooling System Replacement',
+    v5_desc: 'Water pump, thermostat, radiator — full service on N54/N55',
+    v6_title: 'Oil Leak Repair',
+    v6_desc: 'Valve cover gasket and oil filter housing gasket replacement',
+    cta_title: 'Ready to Start?',
+    cta_subtitle: 'Join thousands of BMW owners who repair their cars themselves',
+    cta_btn: 'Join the Community',
+    footer: 'BMW repair enthusiasts community'
+  }
+};
+
+let currentLang = 'ru';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (i18n[lang][key]) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+        el.placeholder = i18n[lang][key];
+      } else {
+        el.innerHTML = i18n[lang][key];
+      }
+    }
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => setLang(btn.dataset.lang));
+});
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+
+</body>
+</html>

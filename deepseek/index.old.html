@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMW Repair Community - Русскоязычное сообщество</title>
+    <style>
+        :root {
+            --primary-color: #0066b3;
+            --secondary-color: #1a1a1a;
+            --accent-color: #ffcc00;
+            --text-color: #333;
+            --light-bg: #f5f5f5;
+            --border-color: #ddd;
+            --font-main: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-main);
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #fff;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            color: var(--accent-color);
+            font-size: 1.8rem;
+        }
+        
+        .language-switcher {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .lang-btn {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .lang-btn:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        .lang-btn.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1555212697-194d092e3b8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--secondary-color);
+            padding: 15px 30px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            background-color: #ffd633;
+        }
+        
+        /* Videos Section */
+        .videos-section {
+            padding: 80px 0;
+            background-color: var(--light-bg);
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            color: var(--secondary-color);
+            font-weight: 300;
+        }
+        
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .video-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .video-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .video-info {
+            padding: 20px;
+        }
+        
+        .video-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+        
+        .video-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Features */
+        .features {
+            padding: 80px 0;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+        
+        /* Community */
+        .community {
+            padding: 80px 0;
+            background-color: var(--light-bg);
+        }
+        
+        .community-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .community-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: var(--secondary-color);
+            font-weight: 300;
+        }
+        
+        .community-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: block;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #999;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .language-switcher {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        /* Language-specific styles */
+        [lang="en"] {
+            display: none;
+        }
+        
+        [lang="ru"] {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <span class="logo-icon">⚙️</span>
+                <span>BMW Repair RU</span>
+            </a>
+            <div class="language-switcher">
+                <button class="lang-btn active" onclick="switchLanguage('ru')">Русский</button>
+                <button class="lang-btn" onclick="switchLanguage('en')">English</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1 lang="ru">Сообщество русскоязычных любителей ремонта BMW</h1>
+            <h1 lang="en">Russian-speaking BMW Repair Enthusiasts Community</h1>
+            
+            <p lang="ru">Присоединяйтесь к крупнейшему сообществу технических специалистов и энтузиастов BMW в русскоязычном пространстве. Обменивайтесь опытом, изучайте руководства по ремонту и находите решения сложных технических задач.</p>
+            <p lang="en">Join the largest community of BMW technicians and enthusiasts in the Russian-speaking world. Share experiences, study repair guides, and find solutions to complex technical challenges.</p>
+            
+            <a href="#videos" class="cta-button" lang="ru">Смотреть обучающие видео</a>
+            <a href="#videos" class="cta-button" lang="en">Watch Tutorial Videos</a>
+        </div>
+    </section>
+
+    <!-- Videos Section -->
+    <section class="videos-section" id="videos">
+        <div class="container">
+            <h2 class="section-title" lang="ru">Обучающие видео по ремонту</h2>
+            <h2 class="section-title" lang="en">Repair Tutorial Videos</h2>
+            
+            <div class="videos-grid">
+                <!-- Video 1 -->
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                                title="Ремонт двигателя BMW" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3 lang="ru">Ремонт двигателя BMW N52: Замена цепи ГРМ</h3>
+                        <h3 lang="en">BMW N52 Engine Repair: Timing Chain Replacement</h3>
+                        <p lang="ru">Подробное руководство по замене цепи ГРМ на двигателе N52</p>
+                        <p lang="en">Detailed guide for timing chain replacement on N52 engine</p>
+                    </div>
+                </div>
+                
+                <!-- Video 2 -->
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                                title="Замена тормозов BMW" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3 lang="ru">Замена тормозных колодок BMW 3 серии (G20)</h3>
+                        <h3 lang="en">BMW 3 Series (G20) Brake Pad Replacement</h3>
+                        <p lang="ru">Пошаговая инструкция по замене передних и задних тормозных колодок</p>
+                        <p lang="en">Step-by-step guide for front and rear brake pad replacement</p>
+                    </div>
+                </div>
+                
+                <!-- Video 3 -->
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                                title="Диагностика электроники BMW" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3 lang="ru">Диагностика и ремонт электронных систем BMW</h3>
+                        <h3 lang="en">BMW Electronic Systems Diagnosis and Repair</h3>
+                        <p lang="ru">Работа с системами iDrive, датчиками и модулями управления</p>
+                        <p lang="en">Working with iDrive systems, sensors and control modules</p>
+                    </div>
+                </div>
+                
+                <!-- Video 4 -->
+                <div class="video-card">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                                title="Обслуживание подвески BMW X5" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3 lang="ru">Обслуживание подвески BMW X5 (F15)</h3>
+                        <h3 lang="en">BMW X5 (F15) Suspension Maintenance</h3>
+                        <p lang="ru">Замена амортизаторов, пружин и сайлентблоков</p>
+                        <p lang="en">Shock absorbers, springs and bushings replacement</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title" lang="ru">Почему наше сообщество</h2>
+            <h2 class="section-title" lang="en">Why Our Community</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3 lang="ru">База знаний</h3>
+                    <h3 lang="en">Knowledge Base</h3>
+                    <p lang="ru">Тысячи руководств по ремонту и технической документации</p>
+                    <p lang="en">Thousands of repair guides and technical documentation</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3 lang="ru">Эксперты</h3>
+                    <h3 lang="en">Experts</h3>
+                    <p lang="ru">Профессиональные механики и опытные энтузиасты</p>
+                    <p lang="en">Professional mechanics and experienced enthusiasts</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🎥</div>
+                    <h3 lang="ru">Видео-уроки</h3>
+                    <h3 lang="en">Video Tutorials</h3>
+                    <p lang="ru">Подробные видеоинструкции по всем видам ремонта</p>
+                    <p lang="en">Detailed video instructions for all types of repairs</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3 lang="ru">Форум</h3>
+                    <h3 lang="en">Forum</h3>
+                    <p lang="ru">Активное сообщество для обсуждения и помощи</p>
+                    <p lang="en">Active community for discussion and assistance</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Stats -->
+    <section class="community">
+        <div class="container">
+            <div class="community-content">
+                <h2 lang="ru">Наше сообщество в цифрах</h2>
+                <h2 lang="en">Our Community in Numbers</h2>
+                
+                <div class="community-stats">
+                    <div class="stat">
+                        <span class="stat-number">15K+</span>
+                        <span class="stat-label" lang="ru">Участников</span>
+                        <span class="stat-label" lang="en">Members</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">5K+</span>
+                        <span class="stat-label" lang="ru">Видео-уроков</span>
+                        <span class="stat-label" lang="en">Video Tutorials</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">50K+</span>
+                        <span class="stat-label" lang="ru">Решений</span>
+                        <span class="stat-label" lang="en">Solutions</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">10+</span>
+                        <span class="stat-label" lang="ru">Лет опыта</span>
+                        <span class="stat-label" lang="en">Years Experience</span>
+                    </div>
+                </div>
+                
+                <p lang="ru" style="max-width: 600px; margin: 0 auto 30px;">
+                    Присоединяйтесь к сообществу, где каждый найдет помощь и поддержку в ремонте своего BMW
+                </p>
+                <p lang="en" style="max-width: 600px; margin: 0 auto 30px;">
+                    Join the community where everyone finds help and support in repairing their BMW
+                </p>
+                
+                <a href="#" class="cta-button" lang="ru">Присоединиться к сообществу</a>
+                <a href="#" class="cta-button" lang="en">Join the Community</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 lang="ru">Сообщество BMW Repair</h3>
+                    <h3 lang="en">BMW Repair Community</h3>
+                    <p lang="ru">Крупнейшее русскоязычное сообщество любителей ремонта BMW</p>
+                    <p lang="en">Largest Russian-speaking community of BMW repair enthusiasts</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 lang="ru">Быстрые ссылки</h3>
+                    <h3 lang="en">Quick Links</h3>
+                    <ul>
+                        <li><a href="#videos" lang="ru">Видео-уроки</a><a href="#videos" lang="en">Video Tutorials</a></li>
+                        <li><a href="#" lang="ru">Форум</a><a href="#" lang="en">Forum</a></li>
+                        <li><a href="#" lang="ru">База знаний</a><a href="#" lang="en">Knowledge Base</a></li>
+                        <li><a href="#" lang="ru">Контакты</a><a href="#" lang="en">Contacts</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 lang="ru">Контакты</h3>
+                    <h3 lang="en">Contacts</h3>
+                    <ul>
+                        <li>Email: info@bmwrepair.ru</li>
+                        <li>Telegram: @bmwrepair_ru</li>
+                        <li>YouTube: BMW Repair RU</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2024 BMW Repair Community. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function switchLanguage(lang) {
+            // Update button states
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.includes(lang === 'ru' ? 'Русский' : 'English')) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Show/hide language content
+            document.querySelectorAll('[lang="ru"]').forEach(el => {
+                el.style.display = lang === 'ru' ? 'block' : 'none';
+            });
+            
+            document.querySelectorAll('[lang="en"]').forEach(el => {
+                el.style.display = lang === 'en' ? 'block' : 'none';
+            });
+            
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+        }
+        
+        // Initialize with Russian
+        document.addEventListener('DOMContentLoaded', () => {
+            switchLanguage('ru');
+        });
+    </script>
+</body>
+</html>
